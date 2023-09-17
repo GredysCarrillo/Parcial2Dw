@@ -1,0 +1,67 @@
+<!-- calculadora.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora</title>
+  <link rel="stylesheet" href="styleC.css">
+</head>
+<body>
+  <h1>Calculadora</h1>
+  <p>Ingrese dos números y seleccione una operación:</p>
+  <input type="number" id="numero1" placeholder="Número 1">
+  <input type="number" id="numero2" placeholder="Número 2">
+  <select id="operacion">
+    <option value="suma">Suma</option>
+    <option value="resta">Resta</option>
+    <option value="multiplicacion">Multiplicación</option>
+    <option value="division">División</option>
+  </select>
+  <button id="calcular-button">Calcular</button>
+  <p>Resultado: <span id="resultado"></span></p>
+
+  
+  <script type="module">
+    import * as agregator from '/src/modules/agregator.js';
+
+    // Esperamos a que el DOM esté completamente cargado
+    document.addEventListener('DOMContentLoaded', function () {
+      const calcularButton = document.getElementById('calcular-button');
+      calcularButton.addEventListener('click', calcular);
+
+      function calcular() {
+        const num1 = parseFloat(document.getElementById('numero1').value);
+        const num2 = parseFloat(document.getElementById('numero2').value);
+        const operacion = document.getElementById('operacion').value;
+
+        let resultado;
+
+        switch (operacion) {
+          case 'suma':
+            resultado = agregator.calculos.suma(num1, num2);
+            break;
+          case 'resta':
+            resultado = agregator.calculos.resta(num1, num2);
+            break;
+          case 'multiplicacion':
+            resultado = agregator.calculos.multiplicacion(num1, num2);
+            break;
+          case 'division':
+            try {
+              resultado = agregator.calculos.division(num1, num2);
+            } catch (error) {
+              resultado = 'Error: ' + error.message;
+            }
+            break;
+          default:
+            resultado = 'Operación no válida';
+        }
+
+        document.getElementById('resultado').textContent = resultado;
+      }
+    });
+  </script>
+</body>
+</html>
+

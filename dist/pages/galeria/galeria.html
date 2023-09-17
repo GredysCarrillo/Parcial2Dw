@@ -1,0 +1,43 @@
+<!-- galeria.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Galería de Imágenes</title>
+  <link rel="stylesheet" href="styles.css">
+ 
+</head>
+<body>
+  <h1>Galería de Imágenes</h1>
+
+  <input type="text" id="imagenURL" placeholder="URL de la imagen">
+  <!-- Cambia el atributo 'onclick' por 'addEventListener' -->
+  <button id="cargarImagenButton">Cargar Imagen</button>
+
+  <div id="galeria"></div>
+
+
+  <script type="module">
+    import * as agregator from '/src/modules/agregator.js';
+
+    // Obtenemos una referencia al botón
+    const cargarImagenButton = document.getElementById('cargarImagenButton');
+
+    // Agregamos un evento clic al botón
+    cargarImagenButton.addEventListener('click', function() {
+      const imagenURL = document.getElementById('imagenURL').value;
+
+      if (imagenURL) {
+        agregator.galeria.cargarImagen(imagenURL);
+        mostrarGaleria();
+        document.getElementById('imagenURL').value = '';
+      }
+    });
+
+    function mostrarGaleria() {
+      agregator.galeria.mostrarGaleria();
+    }
+  </script>
+</body>
+</html>

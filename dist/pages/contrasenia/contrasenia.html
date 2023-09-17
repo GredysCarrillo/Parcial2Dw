@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generador de Contraseñas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Generador de Contraseñas</h1>
+
+  <label for="longitud">Longitud:</label>
+  <input type="number" id="longitud" placeholder="Longitud" min="1" value="12">
+
+  <label for="usarLetras">Usar Letras:</label>
+  <input type="checkbox" id="usarLetras" checked>
+
+  <label for="usarNumeros">Usar Números:</label>
+  <input type="checkbox" id="usarNumeros" checked>
+
+  <label for="usarSimbolos">Usar Símbolos:</label>
+  <input type="checkbox" id="usarSimbolos">
+
+  <button id="generarContraseniaButton">Generar Contraseña</button>
+
+  <p>Contraseña generada: <span id="contraseniaGenerada"></span></p>
+
+
+  <script type="module">
+    import * as agregator from '/src/modules/agregator.js';
+    // Obtenemos una referencia al botón
+    const generarContraseniaButton = document.getElementById('generarContraseniaButton');
+
+    // Agregamos un evento clic al botón
+    generarContraseniaButton.addEventListener('click', function() {
+      const longitud = parseInt(document.getElementById('longitud').value);
+      const usarLetras = document.getElementById('usarLetras').checked;
+      const usarNumeros = document.getElementById('usarNumeros').checked;
+      const usarSimbolos = document.getElementById('usarSimbolos').checked;
+
+      const contraseniaGenerada = agregator.contrasenia.generarContrasenia(
+        longitud,
+        usarLetras,
+        usarNumeros,
+        usarSimbolos
+      );
+
+      // Mostrar la contraseña generada
+      const contraseniaGeneradaElement = document.getElementById('contraseniaGenerada');
+      contraseniaGeneradaElement.textContent = contraseniaGenerada;
+    });
+  </script>
+</body>
+</html>

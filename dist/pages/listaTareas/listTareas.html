@@ -1,0 +1,71 @@
+<!-- listTareas.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Tareas</title>
+  <link rel="stylesheet" href="Styles.css">
+</head>
+<body>
+  <h1>Lista de Tareas</h1>
+
+  <h2>Agregar Tarea</h2>
+  <input type="text" id="nuevaTarea" placeholder="Nueva Tarea">
+  <button id="agregarTareaButton">Agregar</button>
+
+  <h2>Lista de Tareas</h2>
+  <ul id="listaTareas"></ul>
+
+  
+  <script type="module">
+    import * as agregator from '/src/modules/agregator.js';
+    
+    // Obtén una referencia al botón
+    const agregarTareaButton = document.getElementById('agregarTareaButton');
+
+    // Agrega un evento clic al botón
+    agregarTareaButton.addEventListener('click', function () {
+      const nuevaTarea = document.getElementById('nuevaTarea').value;
+      if (nuevaTarea) {
+        agregator.listTareas.agregarTarea(nuevaTarea);
+        mostrarListaDeTareas();
+        document.getElementById('nuevaTarea').value = '';
+      }
+    });
+
+    // Define la función mostrarListaDeTareas en el ámbito global
+    window.mostrarListaDeTareas = function () {
+      const listaTareas = agregator.listTareas.obtenerListaDeTareas();
+      const listaTareasElement = document.getElementById('listaTareas');
+      listaTareasElement.innerHTML = '';
+
+      listaTareas.forEach((tarea, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${index + 1}. ${tarea.tarea} - ${
+          tarea.completada ? 'Completada' : 'Pendiente'
+        }`;
+
+        if (!tarea.completada) {
+          const marcarCompletadaButton = document.createElement('button');
+          marcarCompletadaButton.textContent = 'Marcar como Completada';
+          marcarCompletadaButton.onclick = () =>
+            marcarTareaComoCompletada(index);
+          li.appendChild(marcarCompletadaButton);
+        }
+
+        listaTareasElement.appendChild(li);
+      });
+    };
+
+    // Función para marcar una tarea como completada (sin cambios)
+    function marcarTareaComoCompletada(index) {
+      agregator.listTareas.marcarTareaComoCompletada(index);
+      mostrarListaDeTareas();
+    }
+
+    // Mostrar la lista de tareas al cargar la página
+    mostrarListaDeTareas();
+  </script>
+</body>
+</html>
